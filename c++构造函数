@@ -1,0 +1,68 @@
+#include <iostream>
+using namespace std;
+
+
+class Box 
+{
+public:
+	double length;
+	double breadth;
+	double height;
+	double getVolume(void) 
+	{  // 内联的成员函数inline
+		return length * breadth * height;
+	}
+	double getVolume1(void);// 成员函数的声明
+	void setLength(double len);
+	void setBreadth(double bre);
+	void setHeight(double hei);
+};
+
+// 成员函数的定义
+double Box::getVolume1(void)
+{
+	return length * breadth * height;
+}
+
+void Box::setLength(double len)
+{
+	length = len;
+}
+
+void Box::setBreadth(double bre) 
+{
+	breadth = bre;
+}
+
+void Box::setHeight(double hei)
+{
+	height = hei;
+}
+
+
+int main() 
+{
+	Box box1;
+	Box box2;
+	double volume = 0.0;
+
+
+	// box1的详细信息
+	box1.setLength(6.0);
+	box1.setBreadth(7.0);
+	box1.setHeight(8.0);
+	// box1的体积
+	volume = box1.length * box1.breadth * box1.height;
+	cout << "Box1的体积是: " << volume << endl;
+
+	// box2的详细信息
+	box2.setLength(12.0);
+	box2.setBreadth(13.0);
+	box2.setHeight(10.0);
+	// box2的体积
+	volume = box2.length * box2.breadth * box2.height;
+	cout << "Box2的体积是: " << volume << endl;
+	// 1.类成员函数
+
+	return 0;
+}
