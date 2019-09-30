@@ -1,0 +1,35 @@
+rm(list = ls())
+library(ggplot2)
+library(ggrepel)
+data <- read.table(choose.files(),header = TRUE)
+head(data)
+attach(data)
+data$color<-  as.factor(ifelse(data$padj < 0.05 & abs(data$log2FoldChange) > 1,ifelse(data$log2FoldChange > 1,'red','gray'),'blue'))
+color <- c(red = "red",gray = "gray",blue = "blue")
+data$sign <- ifelse(data$padj < 0.05 & abs(data$log2FoldChange) > 1,data$Gene,NA)
+
+data
+pch<-ifelse(padj<0.05 & abs(log2FoldChange)>= 0.8,ifelse(log2FoldChange > 0.8,'4','5'),'6')
+p<-ggplot(data, aes(x = log2FoldChange, y = -log10(padj), col=color,pch=pch))+
+  geom_point() +
+  theme_bw(base_size = 15) +
+  geom_hline(yintercept = -log10(0.05), lty=4,col="grey",lwd=0.6) +#加水平线
+  geom_hline(yintercept = -log10(0.05), lty=4,col="grey",lwd=0.6) +
+  geom_vline(xintercept = c(-0.5, 1), lty=4,col="grey",lwd=0.6)+ #加直线
+  labs(x="log2 (fold change)",y="-log10 (q-value)")+#x轴+y轴
+  theme(
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_blank()
+  ) +
+  geom_text(aes(label =sign ), size = 3)
+  p
+p <- ggplot(data , aes(x = log2FoldChange, y = -log10(padj), color = color)) +
+  geom_point(alpha=0.8, size = 1) +
+  theme_bw(base_size = 15) +
+  theme(
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_blank()
+  ) +
+   geom_text(aes(label = Gene), size = 3)
+p######################
+data$sign <- ifelse(data$padj < 0.05 & abs(data$log2FoldChange) > 1,data$Gene,NA)
